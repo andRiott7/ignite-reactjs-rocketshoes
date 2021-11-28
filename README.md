@@ -1,2 +1,2 @@
 # ignite-reactjs-rocketshoes
-A React application with shopcart.
+A React application with shopping cart.
