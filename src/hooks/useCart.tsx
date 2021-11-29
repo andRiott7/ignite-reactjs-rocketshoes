@@ -23,27 +23,28 @@ const CartContext = createContext<CartContextData>({} as CartContextData);
 
 export function CartProvider({ children }: CartProviderProps): JSX.Element {
   const [cart, setCart] = useState<Product[]>(() => {
-    const storagedCart = localStorage.getItem('@RocketShoes:cart')
+    const storagedCart = localStorage.getItem('@RocketShoes:cart');
 
     if (storagedCart) {
       return JSON.parse(storagedCart);
     }
+
     return [];
   });
 
   const prevCartRef = useRef<Product[]>();
 
   useEffect(() => {
-    prevCartRef.current = cart; 
-  })
+    prevCartRef.current = cart;
+  });
 
   const cartPreviousValue = prevCartRef.current ?? cart;
 
   useEffect(() => {
     if (cartPreviousValue !== cart) {
-      localStorage.setItem('@RocketShoes:cart', JSON.stringify(cart))
+      localStorage.setItem('@RocketShoes:cart', JSON.stringify(cart));
     }
-  }, [cart, cartPreviousValue])
+  }, [cart, cartPreviousValue]);
 
   const addProduct = async (productId: number) => {
     try {
@@ -57,7 +58,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
       const amount = currentAmount + 1;
 
       if (amount > stockAmount) {
-        toast.error('Quantidade selecionada fora de estoque');
+        toast.error('Quantidade solicitada fora de estoque');
         return;
       }
 
@@ -75,8 +76,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
       setCart(updatedCart);
     } catch {
-      toast.error('Erro na adição de produto');
-
+      toast.error('Erro na adição do produto');
     }
   };
 
